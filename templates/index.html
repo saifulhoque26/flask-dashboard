@@ -17,9 +17,40 @@
         });     
     });
   });
+
+  function getNextIdx() {
+        $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/idx/",
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                $('#idx').text(data.value);
+                if ( data.value <= 100) {
+			getNextIdx();
+                }
+            }
+        });
+   } 
+
+  function resetIdx() {
+        $.ajax({
+            type: "GET",
+            url: $SCRIPT_ROOT + "/reset/",
+            async: true,
+            contentType: "application/json; charset=utf-8",
+            success: function(data) {
+                $('#idx').text(data.value);
+            }
+        });
+   } 
 </script>
 <strong>Enter a value to echo back:</strong>
 <input type="text" size="10" id="echoText" name="echoText">
 <button type="button" id="submitBtn" name="submitBtn">Submit via AJAX</button><br><br>
+<input id="getIdx" type="button" value="Get Idx" onclick="getNextIdx();" />
+<button onclick="getNextIdx();">Start idx loop </button>
+<button onclick="resetIdx();">Reset idx</button>
 <strong><div id="echoResult"></div></strong>
+<strong><div id="idx"></div></strong>
 {% endblock %}
