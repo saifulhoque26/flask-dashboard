@@ -10,6 +10,7 @@
             async: true,
             contentType: "application/json; charset=utf-8",
             success: function(data) {
+                $('#ts').text(data.ts);
                 $('#idx').text(data.value);
                 if ( autoUpdate == 1 ) {
 			//getNextIdx();
@@ -46,4 +47,5 @@
 <button onclick="getNextIdx();">Get next idx </button>
 <button onclick="resetIdx();">Reset idx</button>
 <strong><div id="idx"></div></strong>
+<strong><div id="ts"></div></strong>
 {% endblock %}

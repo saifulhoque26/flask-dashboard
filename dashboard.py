@@ -1,4 +1,6 @@
 from flask import Flask, jsonify, render_template, request
+from datetime import datetime
+
 app = Flask(__name__)
 
 idx = 0
@@ -17,7 +19,7 @@ def index():
 def get_next_idx():
     global idx
     idx += 1
-    ret_data = {"value": idx}
+    ret_data = {"value": idx, "ts": datetime.now().strftime("%Y_%d_%m (%a) - %H:%M:%S.%f")[:-3]}
     return jsonify(ret_data)
  
 @app.route('/reset_idx/', methods=['GET'])
