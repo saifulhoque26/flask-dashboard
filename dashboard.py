@@ -7,6 +7,7 @@ from threading import Thread, Event
 app = Flask(__name__)
 
 idx = 0
+cnt = 0
 
 #random number Generator Thread
 thread = Thread()
@@ -21,6 +22,7 @@ class RandomThread(Thread):
 	global idx
         while not thread_stop_event.isSet():
             idx = round(random()*1000, 3)
+	    print(idx)
             sleep(self.delay)
 
     def run(self):
@@ -40,14 +42,15 @@ def index():
 def get_next_idx():
     global idx
     global thread
+    global cnt
     #Start the random number generator thread only if the thread has not been started before.
     if not thread.isAlive():
-        print "Starting Thread"
+        print( "Starting Thread")
         thread = RandomThread()
         thread.start()
 
-    #idx += 1
-    ret_data = {"value": idx, "ts": datetime.now().strftime("%Y_%d_%m (%a) - %H:%M:%S.%f")[:-3]}
+    cnt += 1
+    ret_data = {"value": idx, "cnt": cnt, "ts": datetime.now().strftime("%Y_%d_%m (%a) - %H:%M:%S.%f")[:-3]}
     return jsonify(ret_data)
  
 @app.route('/reset_idx/', methods=['GET'])
